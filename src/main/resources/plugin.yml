@@ -1,0 +1,7 @@
+name: EternalMobCoins
+version: ${project.version}
+main: me.frost.mobcoins.MobCoins
+authors: [ Frost ]
+commands:
+  mobcoins:
+    aliases: [emobcoins, eternalmobcoins, transfer, etransfer, eternaltransfer, mobshop, emobshop, eternalmobshop]

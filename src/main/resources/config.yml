@@ -1,0 +1,31 @@
+mobcoin-chance: 10
+inventory:
+  inventory-size: 45 # Must be a multiple of 9
+  menu:
+    Test:
+      display-name: "&e&lTest Item &7(700 Coins)"
+      lore:
+        - "&7This is a test item."
+        - ""
+        - "&eUse it however you want!"
+      material:
+        name: "DIAMOND_SWORD"
+        durability: 0 # Most items will use a value of 0
+      price: 700
+      slot: 0 # The first slot is always 0
+    Test2:
+      display-name: "&e&lTest Item 2 &7(1000 Coins)"
+      lore:
+        - "&7This is a test item."
+        - ""
+        - "&eUse it however you want!"
+        - "&e&lBALANCE:"
+        - "&7%balance% MobCoins"
+      material:
+        name: "DIAMOND_PICKAXE"
+        durability: 0 # Most items will use a value of 0
+      price: 1000
+      slot: 1 # The first slot is always 0
+      commands:
+        - "give %player% diamond 1"
+        - "eco give %player% 100"
