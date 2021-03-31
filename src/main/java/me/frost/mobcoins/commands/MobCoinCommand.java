@@ -106,7 +106,7 @@ public class MobCoinCommand implements CommandExecutor {
     public void sendHelpMessage(Player player) {
         player.sendMessage(Formatting.colorize("&e&lEternalMobCoins &7(Made by Frost#0723)"));
         player.sendMessage(" ");
-        player.sendMessage(Formatting.colorize("&e/mobcoins= &f- &7Opens the MobCoin Shop"));
+        player.sendMessage(Formatting.colorize("&e/mobcoins &f- &7Opens the MobCoin Shop"));
         player.sendMessage(Formatting.colorize("&e/mobcoins give <player> <amount> &f- &7Gives a player MobCoins"));
         player.sendMessage(Formatting.colorize("&e/mobcoins remove <player> <amount> &f- &7Removes a players MobCoins"));
         player.sendMessage(Formatting.colorize("&e/mobcoins pay <player> <amount> &f- &7Pays a player MobCoins"));
