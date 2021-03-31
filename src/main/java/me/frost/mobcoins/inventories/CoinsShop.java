@@ -52,6 +52,7 @@ public class CoinsShop implements InventoryHolder {
             inventory.setItem(inventory.firstEmpty(), item);
         }
 
+        // Adds purchasable items from the config to the GUI
         for (String section : MobCoins.configFile.getConfig().getConfigurationSection("inventory.menu").getKeys(false)) {
             List<String> lore = new ArrayList<>();
             for (String lines : MobCoins.configFile.getConfig().getStringList("inventory.menu." + section + ".lore")) {

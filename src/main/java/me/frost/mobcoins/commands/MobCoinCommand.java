@@ -14,21 +14,68 @@ public class MobCoinCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player)sender;
+            Player player = (Player) sender;
             FileConfiguration data = MobCoins.dataFile.getConfig();
-            if (args.length == 0) {
-                CoinsShop inventory = new CoinsShop(player);
-                player.openInventory(inventory.getInventory());
-                return false;
-            }
-            if (args.length == 3) {
-                if (args[0].equalsIgnoreCase("give")) {
-                    if (player.hasPermission("emobcoins.give")) {
+            switch (args.length) {
+                case 0:
+                    CoinsShop inventory = new CoinsShop(player);
+                    player.openInventory(inventory.getInventory());
+                    return false;
+                case 1:
+                    if (args[0].equalsIgnoreCase("bal") || args[0].equalsIgnoreCase("balance")) {
+                        player.sendMessage(Formatting.colorize("&a&l(!) &aYou currently have " + data.getInt("balance." + player.getUniqueId().toString())) + " MobCoin(s)!");
+                    } else {
+                        sendHelpMessage(player);
+                    }
+                    return false;
+                case 3:
+                    if (args[0].equalsIgnoreCase("give")) {
+                        if (player.hasPermission("emobcoins.give")) {
+                            Player target = Bukkit.getPlayer(args[1]);
+                            if (target != null) {
+                                if (isInt(args[2])) {
+                                    player.sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
+                                    data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) + Integer.parseInt(args[2]));
+                                    MobCoins.dataFile.saveConfig();
+                                    MobCoins.dataFile.reload();
+                                    return false;
+                                } else {
+                                    player.sendMessage(Formatting.colorize("&c&l(!) &cPlease specify an amount to give!"));
+                                }
+                            } else {
+                                player.sendMessage(Formatting.colorize("&c&l(!) &cPlease specify a player to give!"));
+                            }
+                        } else {
+                            player.sendMessage(Formatting.colorize("&c&l(!) &cYou do not have permission to execute that command!"));
+                        }
+                    }
+                    if (args[0].equalsIgnoreCase("remove")) {
+                        if (player.hasPermission("emobcoins.give")) {
+                            Player target = Bukkit.getPlayer(args[1]);
+                            if (target != null) {
+                                if (isInt(args[2])) {
+                                    player.sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully removed " + target.getName() + " " + args[2] + " MobCoin(s)!"));
+                                    data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) - Integer.parseInt(args[2]));
+                                    MobCoins.dataFile.saveConfig();
+                                    MobCoins.dataFile.reload();
+                                    return false;
+                                } else {
+                                    player.sendMessage(Formatting.colorize("&c&l(!) &cPlease specify an amount to remove!"));
+                                }
+                            } else {
+                                player.sendMessage(Formatting.colorize("&c&l(!) &cPlease specify a player to remove!"));
+                            }
+                        } else {
+                            player.sendMessage(Formatting.colorize("&c&l(!) &cYou do not have permission to execute that command!"));
+                        }
+                    }
+                    if (args[0].equalsIgnoreCase("pay")) {
                         Player target = Bukkit.getPlayer(args[1]);
                         if (target != null) {
                             if (isInt(args[2])) {
-                                player.sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
-                                data.set("balance." + player.getUniqueId().toString(), data.getInt("balance." + player.getUniqueId().toString()) + Integer.parseInt(args[2]));
+                                player.sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully paid " + target.getName() + " " + args[2] + " MobCoin(s)!"));
+                                data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) + Integer.parseInt(args[2]));
+                                data.set("balance." + player.getUniqueId().toString(), data.getInt("balance." + player.getUniqueId().toString()) - Integer.parseInt(args[2]));
                                 MobCoins.dataFile.saveConfig();
                                 MobCoins.dataFile.reload();
                                 return false;
@@ -38,10 +85,8 @@ public class MobCoinCommand implements CommandExecutor {
                         } else {
                             player.sendMessage(Formatting.colorize("&c&l(!) &cPlease specify a player to give!"));
                         }
-                    } else {
-                        player.sendMessage(Formatting.colorize("&c&l(!) &cYou do not have permission to execute that command!"));
                     }
-                }
+                    return false;
             }
         } else {
             Bukkit.getLogger().severe("Only players can execute that command!");
@@ -56,5 +101,14 @@ public class MobCoinCommand implements CommandExecutor {
             return false;
         }
         return true;
+    }
+
+    public void sendHelpMessage(Player player) {
+        player.sendMessage(Formatting.colorize("&e&lEternalMobCoins &7(Made by Frost#0723)"));
+        player.sendMessage(" ");
+        player.sendMessage(Formatting.colorize("&e/mobcoins= &f- &7Opens the MobCoin Shop"));
+        player.sendMessage(Formatting.colorize("&e/mobcoins give <player> <amount> &f- &7Gives a player MobCoins"));
+        player.sendMessage(Formatting.colorize("&e/mobcoins remove <player> <amount> &f- &7Removes a players MobCoins"));
+        player.sendMessage(Formatting.colorize("&e/mobcoins pay <player> <amount> &f- &7Pays a player MobCoins"));
     }
 }
