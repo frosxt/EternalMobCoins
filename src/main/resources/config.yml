@@ -1,4 +1,6 @@
-mobcoin-chance: 10
+mobs:
+  ZOMBIE: 5
+  SKELETON: 5
 inventory:
   inventory-size: 45 # Must be a multiple of 9
   menu:

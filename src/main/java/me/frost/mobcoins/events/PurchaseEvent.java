@@ -22,26 +22,24 @@ public class PurchaseEvent implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         if (event.getClickedInventory() != null) {
-            if (event.isLeftClick() || event.isRightClick() || event.isShiftClick() || event.getClick() == ClickType.NUMBER_KEY) {
-                if (event.getClickedInventory().getHolder() instanceof CoinsShop) {
-                    event.setCancelled(true);
-                    event.setResult(Event.Result.DENY);
-                    if (event.getCurrentItem() != null) {
-                        FileConfiguration config = MobCoins.configFile.getConfig();
-                        for (String section : config.getConfigurationSection("inventory.menu").getKeys(false)) {
-                            if (event.getSlot() == config.getInt("inventory.menu." + section + ".slot")) {
-                                String uuid = player.getUniqueId().toString();
-                                FileConfiguration data = MobCoins.dataFile.getConfig();
-                                if (data.getInt("balance." + uuid) >= config.getInt("inventory.menu." + section + ".price")) {
-                                    List<String> commands = config.getStringList("inventory.menu." + section + ".commands");
-                                    for (String command : commands) {
-                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replaceAll("%player%", player.getName()));
-                                    }
-                                    data.set("balance." + uuid, data.getInt("balance." + uuid) - config.getInt("inventory.menu." + section + ".price"));
-                                } else {
-                                    player.closeInventory();
-                                    player.sendMessage(Formatting.colorize("&c&l(!) &cYou do not have enough MobCoins to purchase that!"));
+            if (event.getClickedInventory().getHolder() instanceof CoinsShop) {
+                event.setCancelled(true);
+                event.setResult(Event.Result.DENY);
+                if (event.getCurrentItem() != null) {
+                    FileConfiguration config = MobCoins.configFile.getConfig();
+                    for (String section : config.getConfigurationSection("inventory.menu").getKeys(false)) {
+                        if (event.getSlot() == config.getInt("inventory.menu." + section + ".slot")) {
+                            String uuid = player.getUniqueId().toString();
+                            FileConfiguration data = MobCoins.dataFile.getConfig();
+                            if (data.getInt("balance." + uuid) >= config.getInt("inventory.menu." + section + ".price")) {
+                                List<String> commands = config.getStringList("inventory.menu." + section + ".commands");
+                                for (String command : commands) {
+                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replaceAll("%player%", player.getName()));
                                 }
+                                data.set("balance." + uuid, data.getInt("balance." + uuid) - config.getInt("inventory.menu." + section + ".price"));
+                            } else {
+                                player.closeInventory();
+                                player.sendMessage(Formatting.colorize("&c&l(!) &cYou do not have enough MobCoins to purchase that!"));
                             }
                         }
                     }

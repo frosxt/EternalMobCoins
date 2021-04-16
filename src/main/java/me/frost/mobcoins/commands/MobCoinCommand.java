@@ -1,6 +1,7 @@
 package me.frost.mobcoins.commands;
 
 import me.frost.mobcoins.MobCoins;
+import me.frost.mobcoins.MobCoinsAPI;
 import me.frost.mobcoins.inventories.CoinsShop;
 import me.frost.mobcoins.utils.Formatting;
 import org.bukkit.Bukkit;
@@ -24,8 +25,21 @@ public class MobCoinCommand implements CommandExecutor {
                 case 1:
                     if (args[0].equalsIgnoreCase("bal") || args[0].equalsIgnoreCase("balance")) {
                         player.sendMessage(Formatting.colorize("&a&l(!) &aYou currently have " + data.getInt("balance." + player.getUniqueId().toString())) + " MobCoin(s)!");
-                    } else {
+                    }
+                    if (args[0].equalsIgnoreCase("reload")) {
+                        MobCoins.configFile.reload();
+                        player.sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully reloaded the config!"));
+                    }
+                    else {
                         sendHelpMessage(player);
+                    }
+                    return false;
+                case 2:
+                    if (args[0].equalsIgnoreCase("balance") || args[0].equalsIgnoreCase("bal")) {
+                        Player target = Bukkit.getPlayer(args[1]);
+                        if (target != null) {
+                            player.sendMessage(Formatting.colorize("&a&l(!) &a" + target.getName() + " currently has " + MobCoinsAPI.getMobCoins(target) + " MobCoin(s)!"));
+                        }
                     }
                     return false;
                 case 3:
@@ -86,10 +100,52 @@ public class MobCoinCommand implements CommandExecutor {
                             player.sendMessage(Formatting.colorize("&c&l(!) &cPlease specify a player to give!"));
                         }
                     }
-                    return false;
             }
         } else {
-            Bukkit.getLogger().severe("Only players can execute that command!");
+            FileConfiguration data = MobCoins.dataFile.getConfig();
+            switch (args.length) {
+                case 2:
+                    if (args[0].equalsIgnoreCase("balance") || args[0].equalsIgnoreCase("bal")) {
+                        Player target = Bukkit.getPlayer(args[1]);
+                        if (target != null) {
+                            Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&a&l(!) &a" + target.getName() + " currently has " + MobCoinsAPI.getMobCoins(target) + " MobCoin(s)!"));
+                        }
+                    }
+                    return false;
+                case 3:
+                    if (args[0].equalsIgnoreCase("give")) {
+                        Player target = Bukkit.getPlayer(args[1]);
+                        if (target != null) {
+                            if (isInt(args[2])) {
+                                Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
+                                data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) + Integer.parseInt(args[2]));
+                                MobCoins.dataFile.saveConfig();
+                                MobCoins.dataFile.reload();
+                                return false;
+                            } else {
+                                Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&c&l(!) &cPlease specify an amount to give!"));
+                            }
+                        } else {
+                            Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&c&l(!) &cPlease specify a player to give!"));
+                        }
+                    }
+                    if (args[0].equalsIgnoreCase("remove")) {
+                        Player target = Bukkit.getPlayer(args[1]);
+                        if (target != null) {
+                            if (isInt(args[2])) {
+                                Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully removed " + target.getName() + " " + args[2] + " MobCoin(s)!"));
+                                data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) - Integer.parseInt(args[2]));
+                                MobCoins.dataFile.saveConfig();
+                                MobCoins.dataFile.reload();
+                                return false;
+                            } else {
+                                Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&c&l(!) &cPlease specify an amount to remove!"));
+                            }
+                        } else {
+                            Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&c&l(!) &cPlease specify a player to remove!"));
+                        }
+                    }
+            }
         }
         return false;
     }

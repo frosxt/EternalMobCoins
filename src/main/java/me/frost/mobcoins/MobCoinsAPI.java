@@ -11,9 +11,11 @@ public class MobCoinsAPI {
     }
     public static void addMobCoins(Player player, Integer amount) {
         data.set("balance." + player.getUniqueId().toString(), getMobCoins(player) + amount);
+        MobCoins.dataFile.saveConfig();
     }
     public static void setMobCoins(Player player, Integer amount) {
         data.set("balance." + player.getUniqueId().toString(), amount);
+        MobCoins.dataFile.saveConfig();
     }
     public static void resetMobCoins() {
         MobCoins.dataFile.resetConfig();
