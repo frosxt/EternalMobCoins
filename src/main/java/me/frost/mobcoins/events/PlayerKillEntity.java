@@ -3,7 +3,6 @@ package me.frost.mobcoins.events;
 import me.frost.mobcoins.MobCoins;
 import me.frost.mobcoins.MobCoinsAPI;
 import me.frost.mobcoins.utils.Formatting;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
