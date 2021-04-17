@@ -5,6 +5,7 @@ import me.frost.mobcoins.events.PlayerKillEntity;
 import me.frost.mobcoins.events.PurchaseEvent;
 import me.frost.mobcoins.utils.DataFile;
 import me.frost.mobcoins.utils.Formatting;
+import me.frost.mobcoins.utils.Placeholders;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,6 +25,7 @@ public class MobCoins extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerKillEntity(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PurchaseEvent(), this);
         getCommand("mobcoins").setExecutor(new MobCoinCommand());
+        new Placeholders().register();
         Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Enabled successfully!"));
     }
 
