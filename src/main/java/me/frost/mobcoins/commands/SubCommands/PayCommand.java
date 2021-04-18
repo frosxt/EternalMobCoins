@@ -8,9 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class PayCommand implements SubCommandManager {
 
     @Override
@@ -19,8 +16,8 @@ public class PayCommand implements SubCommandManager {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("payplayer");
+    public String getAlias() {
+        return "payplayer";
     }
 
     @Override
@@ -44,7 +41,7 @@ public class PayCommand implements SubCommandManager {
                     player.sendMessage(Formatting.colorize("&c&l(!) &cInvalid player!"));
                 }
             } else {
-                player.sendMessage(Formatting.colorize("&a&l(!) &aYou currently have " + data.getInt("balance." + player.getUniqueId().toString())) + " MobCoin(s)!");
+                player.sendMessage(Formatting.colorize("&c&l(!) &cInvalid arguments! /mobcoins pay <player> <amount>"));
             }
         }
     }

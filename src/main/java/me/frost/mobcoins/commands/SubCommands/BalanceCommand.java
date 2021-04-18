@@ -10,9 +10,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class BalanceCommand implements SubCommandManager {
 
     @Override
@@ -21,8 +18,8 @@ public class BalanceCommand implements SubCommandManager {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("bal", "amount");
+    public String getAlias() {
+        return "bal";
     }
 
     @Override
@@ -30,7 +27,7 @@ public class BalanceCommand implements SubCommandManager {
         FileConfiguration data = MobCoins.dataFile.getConfig();
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (args.length == 3) {
+            if (args.length == 2) {
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target != null) {
                     player.sendMessage(Formatting.colorize("&a&l(!) &a" + target.getName() + " currently has " + MobCoinsAPI.getMobCoins(target) + " MobCoin(s)!"));

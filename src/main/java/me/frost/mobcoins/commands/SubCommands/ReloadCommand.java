@@ -8,9 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class ReloadCommand implements SubCommandManager {
 
     @Override
@@ -19,8 +16,8 @@ public class ReloadCommand implements SubCommandManager {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("rl");
+    public String getAlias() {
+        return "rl";
     }
 
     @Override
