@@ -1,6 +1,6 @@
 package me.frost.mobcoins;
 
-import me.frost.mobcoins.commands.MobCoinCommand;
+import me.frost.mobcoins.commands.CommandManager;
 import me.frost.mobcoins.events.PlayerKillEntity;
 import me.frost.mobcoins.events.PurchaseEvent;
 import me.frost.mobcoins.utils.DataFile;
@@ -24,7 +24,8 @@ public class MobCoins extends JavaPlugin {
         loadChances();
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerKillEntity(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PurchaseEvent(), this);
-        getCommand("mobcoins").setExecutor(new MobCoinCommand());
+        getCommand("mobcoins").setExecutor(new CommandManager());
+        // getCommand("mobcoins").setExecutor(new MobCoinCommand());
         new Placeholders().register();
         Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Enabled successfully!"));
     }
@@ -36,10 +37,10 @@ public class MobCoins extends JavaPlugin {
 
     public void loadChances() {
         PlayerKillEntity.mobChances = new HashMap<>();
-        for (String mob : dataFile.getConfig().getConfigurationSection("mobs").getKeys(false)) {
+        for (String mob : configFile.getConfig().getConfigurationSection("mobs").getKeys(false)) {
             try {
                 EntityType mobType = EntityType.valueOf(mob.toUpperCase());
-                int chance = dataFile.getConfig().getInt("mobs." + mob);
+                int chance = configFile.getConfig().getInt("mobs." + mob);
                 PlayerKillEntity.mobChances.put(mobType, chance);
             } catch (Exception ex) {
                 Bukkit.getLogger().warning(mob + " is not a valid Entity!");

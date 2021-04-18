@@ -37,7 +37,11 @@ public class Placeholders extends PlaceholderExpansion {
 
         // %eternalmobcoins_balance%
         if (player != null && identifier.toLowerCase().equalsIgnoreCase("balance")) {
-            return NumberFormat.getInstance().format(MobCoinsAPI.getMobCoins(player));
+            if (MobCoinsAPI.getMobCoins(player) > 0) {
+                return NumberFormat.getInstance().format(MobCoinsAPI.getMobCoins(player));
+            } else {
+                return NumberFormat.getInstance().format(0);
+            }
         }
 
         return null;
