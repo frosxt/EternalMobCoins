@@ -39,7 +39,7 @@ public class CoinsShop implements InventoryHolder {
 
     public CoinsShop(Player player) {
         this.player = player;
-        inventory = Bukkit.createInventory(this, MobCoins.configFile.getConfig().getInt("inventory.inventory-size"), Formatting.colorize("&8Viewing the &8&nMobCoins Shop"));
+        inventory = Bukkit.createInventory(this, MobCoins.getInstance().configFile.getConfig().getInt("inventory.inventory-size"), Formatting.colorize("&8Viewing the &8&nMobCoins Shop"));
         init();
     }
 
@@ -47,20 +47,20 @@ public class CoinsShop implements InventoryHolder {
         ItemStack item;
 
         // Automatically fills unused inventory slots
-        for (int i = 1; i <= MobCoins.configFile.getConfig().getInt("inventory.inventory-size"); i++) {
+        for (int i = 1; i <= MobCoins.getInstance().configFile.getConfig().getInt("inventory.inventory-size"); i++) {
             item = createItemGlass();
             inventory.setItem(inventory.firstEmpty(), item);
         }
 
         // Adds purchasable items from the config to the GUI
-        for (String section : MobCoins.configFile.getConfig().getConfigurationSection("inventory.menu").getKeys(false)) {
+        for (String section : MobCoins.getInstance().configFile.getConfig().getConfigurationSection("inventory.menu").getKeys(false)) {
             List<String> lore = new ArrayList<>();
-            for (String lines : MobCoins.configFile.getConfig().getStringList("inventory.menu." + section + ".lore")) {
-                lore.add(Formatting.colorize(lines).replaceAll("%balance%", String.valueOf(MobCoins.dataFile.getConfig().getInt("balance." + getPlayer().getUniqueId().toString()))));
+            for (String lines : MobCoins.getInstance().configFile.getConfig().getStringList("inventory.menu." + section + ".lore")) {
+                lore.add(Formatting.colorize(lines).replaceAll("%balance%", String.valueOf(MobCoins.getInstance().dataFile.getConfig().getInt("balance." + getPlayer().getUniqueId().toString()))));
             }
 
-            item = createItem(Formatting.colorize(MobCoins.configFile.getConfig().getString("inventory.menu." + section + ".display-name")), Material.getMaterial(MobCoins.configFile.getConfig().getString("inventory.menu." + section + ".material.name").toUpperCase()), lore, (short) MobCoins.configFile.getConfig().getInt("inventory.menu." + section + ".material.durability"));
-            inventory.setItem(MobCoins.configFile.getConfig().getInt("inventory.menu." + section + ".slot"), item);
+            item = createItem(Formatting.colorize(MobCoins.getInstance().configFile.getConfig().getString("inventory.menu." + section + ".display-name")), Material.getMaterial(MobCoins.getInstance().configFile.getConfig().getString("inventory.menu." + section + ".material.name").toUpperCase()), lore, (short) MobCoins.getInstance().configFile.getConfig().getInt("inventory.menu." + section + ".material.durability"));
+            inventory.setItem(MobCoins.getInstance().configFile.getConfig().getInt("inventory.menu." + section + ".slot"), item);
         }
     }
 

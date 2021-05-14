@@ -9,6 +9,11 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class ReloadCommand implements SubCommandManager {
+    private MobCoins plugin;
+
+    public ReloadCommand(MobCoins plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public String getName() {
@@ -25,13 +30,13 @@ public class ReloadCommand implements SubCommandManager {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (player.hasPermission("emobcoins.admin")) {
-                MobCoins.configFile.reload();
+                plugin.configFile.reload();
                 player.sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully reloaded the config!"));
             } else {
                 player.sendMessage(Formatting.colorize("&c&l(!) &cYou do not have permission to execute that command!"));
             }
         } else if (sender instanceof ConsoleCommandSender) {
-            MobCoins.configFile.reload();
+            plugin.configFile.reload();
             Bukkit.getConsoleSender().sendMessage("Successfully reloaded the config!");
         }
     }

@@ -13,26 +13,30 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 
 public class MobCoins extends JavaPlugin {
-    public static DataFile configFile;
-    public static DataFile dataFile;
+    public DataFile configFile;
+    public DataFile dataFile;
+    public static MobCoins instance;
 
     @Override
     public void onEnable() {
         Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Enabling plugin..."));
+        instance = this;
         configFile = new DataFile(this, "config", true);
         dataFile = new DataFile(this, "data", true);
         loadChances();
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerKillEntity(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PurchaseEvent(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerKillEntity(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PurchaseEvent(this), this);
         getCommand("mobcoins").setExecutor(new CommandManager());
-        // getCommand("mobcoins").setExecutor(new MobCoinCommand());
-        new Placeholders().register();
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new Placeholders(this).register();
+        }
         Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Enabled successfully!"));
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Disabling plugin..."));
+        Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Disabled successfully!"));
     }
 
     public void loadChances() {
@@ -46,5 +50,9 @@ public class MobCoins extends JavaPlugin {
                 Bukkit.getLogger().warning(mob + " is not a valid Entity!");
             }
         }
+    }
+
+    public static MobCoins getInstance() {
+        return instance;
     }
 }

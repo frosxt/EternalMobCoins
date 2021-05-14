@@ -9,6 +9,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class PayCommand implements SubCommandManager {
+    private MobCoins plugin;
+
+    public PayCommand(MobCoins plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public String getName() {
@@ -22,7 +27,7 @@ public class PayCommand implements SubCommandManager {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        FileConfiguration data = MobCoins.dataFile.getConfig();
+        FileConfiguration data = plugin.dataFile.getConfig();
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 3) {
@@ -32,8 +37,8 @@ public class PayCommand implements SubCommandManager {
                         player.sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully paid " + target.getName() + " " + args[2] + " MobCoin(s)!"));
                         data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) + Integer.parseInt(args[2]));
                         data.set("balance." + player.getUniqueId().toString(), data.getInt("balance." + player.getUniqueId().toString()) - Integer.parseInt(args[2]));
-                        MobCoins.dataFile.saveConfig();
-                        MobCoins.dataFile.reload();
+                        plugin.dataFile.saveConfig();
+                        plugin.dataFile.reload();
                     } else {
                         player.sendMessage(Formatting.colorize("&c&l(!) &cPlease specify an amount to give!"));
                     }

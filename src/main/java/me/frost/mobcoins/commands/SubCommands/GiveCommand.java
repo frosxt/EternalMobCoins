@@ -10,6 +10,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class GiveCommand implements SubCommandManager {
+    private MobCoins plugin;
+
+    public GiveCommand(MobCoins plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public String getName() {
@@ -23,7 +28,7 @@ public class GiveCommand implements SubCommandManager {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        FileConfiguration data = MobCoins.dataFile.getConfig();
+        FileConfiguration data = plugin.dataFile.getConfig();
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 3) {
@@ -33,8 +38,8 @@ public class GiveCommand implements SubCommandManager {
                         if (isInt(args[2])) {
                             player.sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
                             data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) + Integer.parseInt(args[2]));
-                            MobCoins.dataFile.saveConfig();
-                            MobCoins.dataFile.reload();
+                            plugin.dataFile.saveConfig();
+                            plugin.dataFile.reload();
                         } else {
                             player.sendMessage(Formatting.colorize("&c&l(!) &cPlease specify an amount to give!"));
                         }
@@ -53,8 +58,8 @@ public class GiveCommand implements SubCommandManager {
                 if (isInt(args[2])) {
                     Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
                     data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) + Integer.parseInt(args[2]));
-                    MobCoins.dataFile.saveConfig();
-                    MobCoins.dataFile.reload();
+                    plugin.dataFile.saveConfig();
+                    plugin.dataFile.reload();
                 } else {
                     Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&c&l(!) &cPlease specify an amount to give!"));
                 }

@@ -11,6 +11,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class BalanceCommand implements SubCommandManager {
+    private MobCoins plugin;
+
+    public BalanceCommand(MobCoins plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public String getName() {
@@ -24,7 +29,7 @@ public class BalanceCommand implements SubCommandManager {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        FileConfiguration data = MobCoins.dataFile.getConfig();
+        FileConfiguration data = plugin.dataFile.getConfig();
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 2) {

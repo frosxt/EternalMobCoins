@@ -1,12 +1,18 @@
 package me.frost.mobcoins.utils;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.frost.mobcoins.MobCoinsAPI;
+import me.frost.mobcoins.MobCoins;
 import org.bukkit.entity.Player;
 
 import java.text.NumberFormat;
 
 public class Placeholders extends PlaceholderExpansion {
+    private MobCoins plugin;
+
+    public Placeholders(MobCoins plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public boolean persist() {
         return true;
@@ -37,10 +43,10 @@ public class Placeholders extends PlaceholderExpansion {
 
         // %eternalmobcoins_balance%
         if (player != null && identifier.toLowerCase().equalsIgnoreCase("balance")) {
-            if (MobCoinsAPI.getMobCoins(player) > 0) {
-                return NumberFormat.getInstance().format(MobCoinsAPI.getMobCoins(player));
+            if (plugin.dataFile.getConfig().getInt("balance." + player.getUniqueId().toString()) > 0) {
+                return NumberFormat.getInstance().format(plugin.dataFile.getConfig().getInt("balance." + player.getUniqueId().toString()));
             } else {
-                return NumberFormat.getInstance().format(0);
+                return "0";
             }
         }
 

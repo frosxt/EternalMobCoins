@@ -14,6 +14,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerKillEntity implements Listener {
     public static HashMap<EntityType, Integer> mobChances;
+    private MobCoins plugin;
+
+    public PlayerKillEntity(MobCoins plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDeath(EntityDeathEvent event) {
@@ -23,10 +28,10 @@ public class PlayerKillEntity implements Listener {
             for (EntityType mob : mobChances.keySet()) {
                 if (entity.equals(mob)) {
                     int chance = ThreadLocalRandom.current().nextInt(100);
-                    if (chance <= MobCoins.configFile.getConfig().getInt("mobs." + mob)) {
+                    if (chance <= plugin.configFile.getConfig().getInt("mobs." + mob)) {
                         player.sendMessage(Formatting.colorize("&a&l+1 MobCoin &7(Grinding Mobs)"));
-                        MobCoins.dataFile.getConfig().set("balance." + player.getUniqueId().toString(), MobCoins.dataFile.getConfig().getInt("balance." + player.getUniqueId().toString()) + 1);
-                        MobCoins.dataFile.saveConfig();
+                        plugin.dataFile.getConfig().set("balance." + player.getUniqueId().toString(), plugin.dataFile.getConfig().getInt("balance." + player.getUniqueId().toString()) + 1);
+                        plugin.dataFile.saveConfig();
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package me.frost.mobcoins.commands;
 
+import me.frost.mobcoins.MobCoins;
 import me.frost.mobcoins.commands.SubCommands.*;
 import me.frost.mobcoins.inventories.CoinsShop;
 import me.frost.mobcoins.utils.Formatting;
@@ -16,11 +17,11 @@ public class CommandManager implements CommandExecutor {
     private ArrayList<SubCommandManager> subCommands = new ArrayList<>();
 
     public CommandManager() {
-        subCommands.add(new GiveCommand());
-        subCommands.add(new BalanceCommand());
-        subCommands.add(new ReloadCommand());
-        subCommands.add(new PayCommand());
-        subCommands.add(new RemoveCommand());
+        subCommands.add(new GiveCommand(MobCoins.getInstance()));
+        subCommands.add(new BalanceCommand(MobCoins.getInstance()));
+        subCommands.add(new ReloadCommand(MobCoins.getInstance()));
+        subCommands.add(new PayCommand(MobCoins.getInstance()));
+        subCommands.add(new RemoveCommand(MobCoins.getInstance()));
     }
 
     public ArrayList<SubCommandManager> getSubCommands() {
