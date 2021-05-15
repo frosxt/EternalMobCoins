@@ -6,6 +6,7 @@ import me.frost.mobcoins.events.PurchaseEvent;
 import me.frost.mobcoins.utils.DataFile;
 import me.frost.mobcoins.utils.Formatting;
 import me.frost.mobcoins.utils.Placeholders;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +21,7 @@ public class MobCoins extends JavaPlugin {
     @Override
     public void onEnable() {
         Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Enabling plugin..."));
+        new Metrics(this, 11370);
         instance = this;
         configFile = new DataFile(this, "config", true);
         dataFile = new DataFile(this, "data", true);
