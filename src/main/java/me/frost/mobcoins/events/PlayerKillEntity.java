@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerKillEntity implements Listener {
-    public static HashMap<EntityType, Integer> mobChances;
-    private MobCoins plugin;
+    public static HashMap<EntityType, Integer> mobChances = new HashMap<>();
+    private final MobCoins plugin;
 
     public PlayerKillEntity(MobCoins plugin) {
         this.plugin = plugin;

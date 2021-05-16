@@ -11,8 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-
 public class MobCoins extends JavaPlugin {
     public DataFile configFile;
     public DataFile dataFile;
@@ -20,7 +18,7 @@ public class MobCoins extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Enabling plugin..."));
+        Bukkit.getLogger().info(Formatting.colorize("&e[EternalMobCoins] Enabling plugin..."));
         new Metrics(this, 11370);
         instance = this;
         configFile = new DataFile(this, "config", true);
@@ -32,17 +30,16 @@ public class MobCoins extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new Placeholders(this).register();
         }
-        Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Enabled successfully!"));
+        Bukkit.getLogger().info(Formatting.colorize("&e[EternalMobCoins] Enabled successfully!"));
     }
 
     @Override
     public void onDisable() {
-        Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Disabling plugin..."));
-        Bukkit.getConsoleSender().sendMessage(Formatting.colorize("&e[EternalMobCoins] Disabled successfully!"));
+        Bukkit.getLogger().info(Formatting.colorize("&e[EternalMobCoins] Disabling plugin..."));
+        Bukkit.getLogger().info(Formatting.colorize("&e[EternalMobCoins] Disabled successfully!"));
     }
 
-    public void loadChances() {
-        PlayerKillEntity.mobChances = new HashMap<>();
+    private void loadChances() {
         for (String mob : configFile.getConfig().getConfigurationSection("mobs").getKeys(false)) {
             try {
                 EntityType mobType = EntityType.valueOf(mob.toUpperCase());
