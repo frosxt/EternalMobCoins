@@ -1,18 +1,18 @@
 package me.frost.mobcoins.commands.SubCommands;
 
 import me.frost.mobcoins.MobCoins;
+import me.frost.mobcoins.MobCoinsAPI;
 import me.frost.mobcoins.commands.SubCommandManager;
-import me.frost.mobcoins.utils.Formatting;
+import me.frost.mobcoins.utils.GeneralUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class GiveCommand implements SubCommandManager {
-    private MobCoins plugin;
+    private final MobCoins plugin;
 
-    public GiveCommand(MobCoins plugin) {
+    public GiveCommand(final MobCoins plugin) {
         this.plugin = plugin;
     }
 
@@ -27,52 +27,49 @@ public class GiveCommand implements SubCommandManager {
     }
 
     @Override
-    public void perform(CommandSender sender, String[] args) {
-        FileConfiguration data = plugin.dataFile.getConfig();
+    public void perform(final CommandSender sender, final String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player) sender;
+            final Player player = (Player) sender;
             if (args.length == 3) {
                 if (player.hasPermission("emobcoins.admin")) {
-                    Player target = Bukkit.getPlayer(args[1]);
+                    final Player target = Bukkit.getPlayer(args[1]);
                     if (target != null) {
                         if (isInt(args[2])) {
-                            player.sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
-                            data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) + Integer.parseInt(args[2]));
-                            plugin.dataFile.saveConfig();
-                            plugin.dataFile.reload();
+                            player.sendMessage(GeneralUtils.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
+                            MobCoinsAPI.addMobCoins(target, Integer.parseInt(args[2]));
+                            GeneralUtils.reloadData();
                         } else {
-                            player.sendMessage(Formatting.colorize("&c&l(!) &cPlease specify an amount to give!"));
+                            player.sendMessage(GeneralUtils.colorize("&c&l(!) &cPlease specify an amount to give!"));
                         }
                     } else {
-                        player.sendMessage(Formatting.colorize("&c&l(!) &cInvalid player!"));
+                        player.sendMessage(GeneralUtils.colorize("&c&l(!) &cInvalid player!"));
                     }
                 } else {
-                    player.sendMessage(Formatting.colorize("&c&l(!) &cYou do not have permission to execute that command!"));
+                    player.sendMessage(GeneralUtils.colorize("&c&l(!) &cYou do not have permission to execute that command!"));
                 }
             } else {
-                player.sendMessage(Formatting.colorize("&c&l(!) &cInvalid arguments! /mobcoins give <player> <amount>"));
+                player.sendMessage(GeneralUtils.colorize("&c&l(!) &cInvalid arguments! /mobcoins give <player> <amount>"));
             }
         } else if (sender instanceof ConsoleCommandSender) {
-            Player target = Bukkit.getPlayer(args[1]);
+            final Player target = Bukkit.getPlayer(args[1]);
             if (target != null) {
                 if (isInt(args[2])) {
-                    Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
-                    data.set("balance." + target.getUniqueId().toString(), data.getInt("balance." + target.getUniqueId().toString()) + Integer.parseInt(args[2]));
-                    plugin.dataFile.saveConfig();
-                    plugin.dataFile.reload();
+                    Bukkit.getServer().getConsoleSender().sendMessage(GeneralUtils.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
+                    MobCoinsAPI.addMobCoins(target, Integer.parseInt(args[2]));
+                    GeneralUtils.reloadData();
                 } else {
-                    Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&c&l(!) &cPlease specify an amount to give!"));
+                    Bukkit.getServer().getConsoleSender().sendMessage(GeneralUtils.colorize("&c&l(!) &cPlease specify an amount to give!"));
                 }
             } else {
-                Bukkit.getServer().getConsoleSender().sendMessage(Formatting.colorize("&c&l(!) &cInvalid player!"));
+                Bukkit.getServer().getConsoleSender().sendMessage(GeneralUtils.colorize("&c&l(!) &cInvalid player!"));
             }
         }
     }
 
-    public static boolean isInt(String integer) {
+    public static boolean isInt(final String integer) {
         try {
             Integer.parseInt(integer);
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
             return false;
         }
         return true;

@@ -1,52 +1,48 @@
 package me.frost.mobcoins;
 
-import org.bukkit.configuration.file.FileConfiguration;
+import me.frost.mobcoins.events.PlayerKillEntity;
 import org.bukkit.entity.Player;
 
 public class MobCoinsAPI {
-    private static final FileConfiguration data = MobCoins.getInstance().dataFile.getConfig();
 
     /**
      * Gets the players MobCoin balance
-     * Sometimes this method doesn't update and will always show the same value, working on it!
      *
-     * @param player
-     * @return
      */
-    public static int getMobCoins(Player player) {
-        int balance = data.getInt("balance." + player.getUniqueId().toString());
-        return balance;
+    public static int getMobCoins(final Player player) {
+        if (PlayerKillEntity.playerData.get(player.getUniqueId()) == null) {
+            return 0;
+        }
+        return PlayerKillEntity.playerData.get(player.getUniqueId());
     }
 
     /**
      * Adds MobCoins to a player
      *
-     * @param player
-     * @return
      */
-    public static void addMobCoins(Player player, Integer amount) {
-        data.set("balance." + player.getUniqueId().toString(), data.getInt("balance." + player.getUniqueId().toString()) + amount);
-        MobCoins.getInstance().dataFile.saveConfig();
+    public static void addMobCoins(final Player player, final Integer amount) {
+        if (PlayerKillEntity.playerData.get(player.getUniqueId()) == null) {
+            PlayerKillEntity.playerData.putIfAbsent(player.getUniqueId(), amount);
+        }
+        PlayerKillEntity.playerData.put(player.getUniqueId(), PlayerKillEntity.playerData.get(player.getUniqueId()) + amount);
+    }
+
+    /**
+     * Removes MobCoins from a player
+     *
+     */
+    public static void removeMobCoins(final Player player, final Integer amount) {
+        if (PlayerKillEntity.playerData.get(player.getUniqueId()) == null) {
+            return;
+        }
+        PlayerKillEntity.playerData.put(player.getUniqueId(), PlayerKillEntity.playerData.get(player.getUniqueId()) - amount);
     }
 
     /**
      * Sets a player's MobCoins
-     * Sometimes this method doesn't update and will always show the same value, working on it!
      *
-     * @param player
-     * @return
      */
-    public static void setMobCoins(Player player, Integer amount) {
-        data.set("balance." + player.getUniqueId().toString(), amount);
-        MobCoins.getInstance().dataFile.saveConfig();
-    }
-
-    /**
-     * Resets everyone's MobCoins to 0
-     *
-     * @return
-     */
-    public static void resetMobCoins() {
-        MobCoins.getInstance().dataFile.resetConfig();
+    public static void setMobCoins(final Player player, final Integer amount) {
+        PlayerKillEntity.playerData.put(player.getUniqueId(), amount);
     }
 }

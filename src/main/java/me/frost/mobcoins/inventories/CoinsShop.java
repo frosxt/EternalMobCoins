@@ -2,7 +2,7 @@ package me.frost.mobcoins.inventories;
 
 import com.google.common.base.Strings;
 import me.frost.mobcoins.MobCoins;
-import me.frost.mobcoins.utils.Formatting;
+import me.frost.mobcoins.utils.GeneralUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,9 +19,9 @@ public class CoinsShop implements InventoryHolder {
     private final Player player;
     private final Inventory inventory;
 
-    private ItemStack createItem(String name, Material material, List<String> lore, Short data) {
-        ItemStack item = new ItemStack(material, 1, data);
-        ItemMeta meta = item.getItemMeta();
+    private ItemStack createItem(final String name, final Material material, final List<String> lore, final Short data) {
+        final ItemStack item = new ItemStack(material, 1, data);
+        final ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
         meta.setLore(lore);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -30,16 +30,16 @@ public class CoinsShop implements InventoryHolder {
     }
 
     private ItemStack createItemGlass() {
-        ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7);
-        ItemMeta meta = item.getItemMeta();
+        final ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7);
+        final ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(" ");
         item.setItemMeta(meta);
         return item;
     }
 
-    public CoinsShop(Player player) {
+    public CoinsShop(final Player player) {
         this.player = player;
-        inventory = Bukkit.createInventory(this, MobCoins.getInstance().configFile.getConfig().getInt("inventory.inventory-size"), Formatting.colorize("&8Viewing the &8&nMobCoins Shop"));
+        inventory = Bukkit.createInventory(this, MobCoins.getInstance().configFile.getConfig().getInt("inventory.inventory-size"), GeneralUtils.colorize("&8Viewing the &8&nMobCoins Shop"));
         init();
     }
 
@@ -53,13 +53,13 @@ public class CoinsShop implements InventoryHolder {
         }
 
         // Adds purchasable items from the config to the GUI
-        for (String section : MobCoins.getInstance().configFile.getConfig().getConfigurationSection("inventory.menu").getKeys(false)) {
-            List<String> lore = new ArrayList<>();
-            for (String lines : MobCoins.getInstance().configFile.getConfig().getStringList("inventory.menu." + section + ".lore")) {
-                lore.add(Formatting.colorize(lines).replaceAll("%balance%", String.valueOf(MobCoins.getInstance().dataFile.getConfig().getInt("balance." + getPlayer().getUniqueId().toString()))));
+        for (final String section : MobCoins.getInstance().configFile.getConfig().getConfigurationSection("inventory.menu").getKeys(false)) {
+            final List<String> lore = new ArrayList<>();
+            for (final String lines : MobCoins.getInstance().configFile.getConfig().getStringList("inventory.menu." + section + ".lore")) {
+                lore.add(GeneralUtils.colorize(lines).replaceAll("%balance%", String.valueOf(MobCoins.getInstance().dataFile.getConfig().getInt("balance." + getPlayer().getUniqueId().toString()))));
             }
 
-            item = createItem(Formatting.colorize(MobCoins.getInstance().configFile.getConfig().getString("inventory.menu." + section + ".display-name")), Material.getMaterial(MobCoins.getInstance().configFile.getConfig().getString("inventory.menu." + section + ".material.name").toUpperCase()), lore, (short) MobCoins.getInstance().configFile.getConfig().getInt("inventory.menu." + section + ".material.durability"));
+            item = createItem(GeneralUtils.colorize(MobCoins.getInstance().configFile.getConfig().getString("inventory.menu." + section + ".display-name")), Material.getMaterial(MobCoins.getInstance().configFile.getConfig().getString("inventory.menu." + section + ".material.name").toUpperCase()), lore, (short) MobCoins.getInstance().configFile.getConfig().getInt("inventory.menu." + section + ".material.durability"));
             inventory.setItem(MobCoins.getInstance().configFile.getConfig().getInt("inventory.menu." + section + ".slot"), item);
         }
     }
@@ -73,10 +73,10 @@ public class CoinsShop implements InventoryHolder {
         return this.player;
     }
 
-    public static String getProgressBar(int current, int max, int totalBars, char symbol, String completedColor, String notCompletedColor) {
-        float percent = (float) current / max;
-        int progressBars = (int) (totalBars * percent);
+    public static String getProgressBar(final int current, final int max, final int totalBars, final char symbol, final String completedColor, final String notCompletedColor) {
+        final float percent = (float) current / max;
+        final int progressBars = (int) (totalBars * percent);
 
-        return Strings.repeat("" + Formatting.colorize(completedColor) + symbol, progressBars) + Strings.repeat("" + Formatting.colorize(notCompletedColor) + symbol, totalBars - progressBars);
+        return Strings.repeat("" + GeneralUtils.colorize(completedColor) + symbol, progressBars) + Strings.repeat("" + GeneralUtils.colorize(notCompletedColor) + symbol, totalBars - progressBars);
     }
 }
