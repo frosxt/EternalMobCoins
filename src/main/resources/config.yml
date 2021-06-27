@@ -1,4 +1,4 @@
-mobs:
+mobs: # Chances of a MobCoin dropping when specified mob is killed
   ZOMBIE: 5
   SKELETON: 5
 inventory:

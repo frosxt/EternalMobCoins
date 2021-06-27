@@ -1,6 +1,5 @@
 package me.frost.mobcoins.inventories;
 
-import com.google.common.base.Strings;
 import me.frost.mobcoins.MobCoins;
 import me.frost.mobcoins.utils.GeneralUtils;
 import org.bukkit.Bukkit;
@@ -71,12 +70,5 @@ public class CoinsShop implements InventoryHolder {
 
     private Player getPlayer() {
         return this.player;
-    }
-
-    public static String getProgressBar(final int current, final int max, final int totalBars, final char symbol, final String completedColor, final String notCompletedColor) {
-        final float percent = (float) current / max;
-        final int progressBars = (int) (totalBars * percent);
-
-        return Strings.repeat("" + GeneralUtils.colorize(completedColor) + symbol, progressBars) + Strings.repeat("" + GeneralUtils.colorize(notCompletedColor) + symbol, totalBars - progressBars);
     }
 }

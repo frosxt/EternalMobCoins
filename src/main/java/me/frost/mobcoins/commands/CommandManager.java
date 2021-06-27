@@ -4,11 +4,9 @@ import me.frost.mobcoins.MobCoins;
 import me.frost.mobcoins.commands.SubCommands.*;
 import me.frost.mobcoins.inventories.CoinsShop;
 import me.frost.mobcoins.utils.GeneralUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -48,25 +46,13 @@ public class CommandManager implements CommandExecutor {
     }
 
     public void sendHelpMessage(final CommandSender sender) {
-        if (sender instanceof Player) {
-            final Player player = (Player) sender;
-            player.sendMessage(GeneralUtils.colorize("&e&lEternalMobCoins &7(Made by Frost#0723)"));
-            player.sendMessage(" ");
-            player.sendMessage(GeneralUtils.colorize("&e/mobcoins &f- &7Opens the MobCoin Shop"));
-            player.sendMessage(GeneralUtils.colorize("&e/mobcoins balance <player> &f- &7Shows a players MobCoin balance"));
-            player.sendMessage(GeneralUtils.colorize("&e/mobcoins give <player> <amount> &f- &7Gives a player MobCoins"));
-            player.sendMessage(GeneralUtils.colorize("&e/mobcoins remove <player> <amount> &f- &7Removes a players MobCoins"));
-            player.sendMessage(GeneralUtils.colorize("&e/mobcoins reload &f- &7Reloads the configuration"));
-            player.sendMessage(GeneralUtils.colorize("&e/mobcoins pay <player> <amount> &f- &7Pays a player MobCoins"));
-        } else if (sender instanceof ConsoleCommandSender) {
-            Bukkit.getConsoleSender().sendMessage(GeneralUtils.colorize("&e&lEternalMobCoins &7(Made by Frost#0723)"));
-            Bukkit.getConsoleSender().sendMessage(" ");
-            Bukkit.getConsoleSender().sendMessage(GeneralUtils.colorize("&e/mobcoins &f- &7Opens the MobCoin Shop"));
-            Bukkit.getConsoleSender().sendMessage(GeneralUtils.colorize("&e/mobcoins balance <player> &f- &7Shows a players MobCoin balance"));
-            Bukkit.getConsoleSender().sendMessage(GeneralUtils.colorize("&e/mobcoins give <player> <amount> &f- &7Gives a player MobCoins"));
-            Bukkit.getConsoleSender().sendMessage(GeneralUtils.colorize("&e/mobcoins remove <player> <amount> &f- &7Removes a players MobCoins"));
-            Bukkit.getConsoleSender().sendMessage(GeneralUtils.colorize("&e/mobcoins reload &f- &7Reloads the configuration"));
-            Bukkit.getConsoleSender().sendMessage(GeneralUtils.colorize("&e/mobcoins pay <player> <amount> &f- &7Pays a player MobCoins"));
-        }
+        sender.sendMessage(GeneralUtils.colorize("&e&lEternalMobCoins &7(Made by Frost#0723)"));
+        sender.sendMessage(" ");
+        sender.sendMessage(GeneralUtils.colorize("&e/mobcoins &f- &7Opens the MobCoin Shop"));
+        sender.sendMessage(GeneralUtils.colorize("&e/mobcoins balance <player> &f- &7Shows a players MobCoin balance"));
+        sender.sendMessage(GeneralUtils.colorize("&e/mobcoins give <player> <amount> &f- &7Gives a player MobCoins"));
+        sender.sendMessage(GeneralUtils.colorize("&e/mobcoins remove <player> <amount> &f- &7Removes a players MobCoins"));
+        sender.sendMessage(GeneralUtils.colorize("&e/mobcoins reload &f- &7Reloads the configuration"));
+        sender.sendMessage(GeneralUtils.colorize("&e/mobcoins pay <player> <amount> &f- &7Pays a player MobCoins"));
     }
 }
