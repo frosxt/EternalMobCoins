@@ -1,7 +1,7 @@
 package me.frost.mobcoins.commands;
 
 import me.frost.mobcoins.MobCoins;
-import me.frost.mobcoins.commands.SubCommands.*;
+import me.frost.mobcoins.commands.subcommands.*;
 import me.frost.mobcoins.inventories.CoinsShop;
 import me.frost.mobcoins.utils.GeneralUtils;
 import org.bukkit.command.Command;
@@ -17,7 +17,7 @@ public class CommandManager implements CommandExecutor {
     public CommandManager() {
         subCommands.add(new GiveCommand(MobCoins.getInstance()));
         subCommands.add(new BalanceCommand(MobCoins.getInstance()));
-        subCommands.add(new ReloadCommand());
+        subCommands.add(new ReloadCommand(MobCoins.getInstance()));
         subCommands.add(new PayCommand(MobCoins.getInstance()));
         subCommands.add(new RemoveCommand(MobCoins.getInstance()));
     }
@@ -46,7 +46,7 @@ public class CommandManager implements CommandExecutor {
     }
 
     public void sendHelpMessage(final CommandSender sender) {
-        sender.sendMessage(GeneralUtils.colorize("&e&lEternalMobCoins &7(Made by Frost#0723)"));
+        sender.sendMessage(GeneralUtils.colorize("&e&lEternalMobCoins &7(Made by frost#0723)"));
         sender.sendMessage(" ");
         sender.sendMessage(GeneralUtils.colorize("&e/mobcoins &f- &7Opens the MobCoin Shop"));
         sender.sendMessage(GeneralUtils.colorize("&e/mobcoins balance <player> &f- &7Shows a players MobCoin balance"));

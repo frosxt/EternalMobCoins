@@ -1,4 +1,4 @@
-package me.frost.mobcoins.commands.SubCommands;
+package me.frost.mobcoins.commands.subcommands;
 
 import me.frost.mobcoins.MobCoins;
 import me.frost.mobcoins.MobCoinsAPI;
@@ -35,17 +35,17 @@ public class GiveCommand implements SubCommandManager {
                     final Player target = Bukkit.getPlayer(args[1]);
                     if (target != null) {
                         if (isInt(args[2])) {
-                            player.sendMessage(GeneralUtils.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
+                            player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.gave-mobcoins")));
                             MobCoinsAPI.addMobCoins(target, Integer.parseInt(args[2]));
                             GeneralUtils.reloadData();
                         } else {
                             player.sendMessage(GeneralUtils.colorize("&c&l(!) &cPlease specify an amount to give!"));
                         }
                     } else {
-                        player.sendMessage(GeneralUtils.colorize("&c&l(!) &cInvalid player!"));
+                        player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-player").replaceAll("%player%", args[1])));
                     }
                 } else {
-                    player.sendMessage(GeneralUtils.colorize("&c&l(!) &cYou do not have permission to execute that command!"));
+                    player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.no-permission")));
                 }
             } else {
                 player.sendMessage(GeneralUtils.colorize("&c&l(!) &cInvalid arguments! /mobcoins give <player> <amount>"));

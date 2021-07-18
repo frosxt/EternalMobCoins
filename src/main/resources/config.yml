@@ -1,3 +1,15 @@
+messages:
+  balance: "&a&l(!) &aYou currently have %amount% MobCoins(s)!"
+  balance-other: "&a&l(!) &a%player% currently has %amount% MobCoin(s)!"
+  gave-mobcoins: "&a&l(!) &aSuccessfully gave %player% %amount% MobCoins(s)!"
+  paid-player: "&a&l(!) &aSuccessfully paid %player% %amount% MobCoins(s)!"
+  removed-mobcoins: "&a&l(!) &aSuccessfully removed %amount% MobCoins(s) from %player%!"
+  invalid-player: "&c&l(!) &cInvalid player!"
+  not-enough-mobcoins: "&c&l(!) &cYou do not have enough MobCoins to purchase that!"
+  received-mobcoins: "&a&l+1 MobCoin &7(Grinding Mobs)"
+  no-permission: "&c&l(!) &cYou do not have permission to execute that command!"
+settings:
+  amount-per-mob: 1 # The amount of mob coins each mob wil drop
 mobs: # Chances of a MobCoin dropping when specified mob is killed
   ZOMBIE: 5
   SKELETON: 5

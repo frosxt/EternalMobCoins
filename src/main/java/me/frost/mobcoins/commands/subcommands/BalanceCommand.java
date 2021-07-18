@@ -1,4 +1,4 @@
-package me.frost.mobcoins.commands.SubCommands;
+package me.frost.mobcoins.commands.subcommands;
 
 import me.frost.mobcoins.MobCoins;
 import me.frost.mobcoins.MobCoinsAPI;
@@ -33,14 +33,19 @@ public class BalanceCommand implements SubCommandManager {
             if (args.length == 2) {
                 final Player target = Bukkit.getPlayer(args[1]);
                 if (target != null) {
-                    player.sendMessage(GeneralUtils.colorize("&a&l(!) &a" + target.getName() + " currently has " + MobCoinsAPI.getMobCoins(target) + " MobCoin(s)!"));
+                    player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.balance").replaceAll("%player%", target.getName()).replaceAll("%amount%", String.valueOf(MobCoinsAPI.getMobCoins(target)))));
                 } else {
-                    player.sendMessage(GeneralUtils.colorize("&c&l(!) &cInvalid player!"));
+                    player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-player").replaceAll("%player%", args[1])));
                 }
             } else {
+                player.sendMessage(GeneralUtils.colorize(""));
                 player.sendMessage(GeneralUtils.colorize("&a&l(!) &aYou currently have " + MobCoinsAPI.getMobCoins(player) + " MobCoin(s)!"));
             }
         } else if (sender instanceof ConsoleCommandSender) {
+            if (args.length != 2) {
+                sender.sendMessage("/mobcoins balance <player>");
+                return;
+            }
             if (args[0].equalsIgnoreCase("balance") || args[0].equalsIgnoreCase("bal")) {
                 final Player target = Bukkit.getPlayer(args[1]);
                 if (target != null) {

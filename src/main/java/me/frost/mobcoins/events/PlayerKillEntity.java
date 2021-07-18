@@ -27,16 +27,17 @@ public class PlayerKillEntity implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDeath(final EntityDeathEvent event) {
-        if (event.getEntity().getKiller() != null) {
-            final Player player = event.getEntity().getKiller();
-            final EntityType entity = event.getEntity().getType();
-            for (final EntityType mob : mobChances.keySet()) {
-                if (entity.equals(mob)) {
-                    final int chance = ThreadLocalRandom.current().nextInt(100);
-                    if (chance <= plugin.configFile.getConfig().getInt("mobs." + mob)) {
-                        player.sendMessage(GeneralUtils.colorize("&a&l+1 MobCoin &7(Grinding Mobs)"));
-                        MobCoinsAPI.addMobCoins(player, 1);
-                    }
+        if (event.getEntity().getKiller() == null) {
+            return;
+        }
+        final Player player = event.getEntity().getKiller();
+        final EntityType entity = event.getEntity().getType();
+        for (final EntityType mob : mobChances.keySet()) {
+            if (entity.equals(mob)) {
+                final int chance = ThreadLocalRandom.current().nextInt(100);
+                if (chance <= plugin.configFile.getConfig().getInt("mobs." + mob)) {
+                    player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.received-mobcoins")));
+                    MobCoinsAPI.addMobCoins(player, plugin.getConfig().getInt("settings.amount-per-mob"));
                 }
             }
         }

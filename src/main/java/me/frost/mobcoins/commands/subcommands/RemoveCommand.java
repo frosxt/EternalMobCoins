@@ -1,4 +1,4 @@
-package me.frost.mobcoins.commands.SubCommands;
+package me.frost.mobcoins.commands.subcommands;
 
 import me.frost.mobcoins.MobCoins;
 import me.frost.mobcoins.MobCoinsAPI;
@@ -35,17 +35,17 @@ public class RemoveCommand implements SubCommandManager {
                     final Player target = Bukkit.getPlayer(args[1]);
                     if (target != null) {
                         if (isInt(args[2])) {
-                            player.sendMessage(GeneralUtils.colorize("&a&l(!) &aSuccessfully removed " + args[2] + " MobCoin(s)" + " from " + target.getName() + "!"));
+                            player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.removed-mobcoins").replaceAll("%player%", target.getName()).replaceAll("%amount%", args[2])));
                             MobCoinsAPI.removeMobCoins(target, Integer.parseInt(args[2]));
                             GeneralUtils.reloadData();
                         } else {
                             player.sendMessage(GeneralUtils.colorize("&c&l(!) &cPlease specify an amount to remove!"));
                         }
                     } else {
-                        player.sendMessage(GeneralUtils.colorize("&c&l(!) &cInvalid player!"));
+                        player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-player").replaceAll("%player%", args[1])));
                     }
                 } else {
-                    player.sendMessage(GeneralUtils.colorize("&c&l(!) &cYou do not have permission to execute that command!"));
+                    player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.no-permission")));
                 }
             } else {
                 player.sendMessage(GeneralUtils.colorize("&c&l(!) &cInvalid arguments! /mobcoins remove <player> <amount>"));

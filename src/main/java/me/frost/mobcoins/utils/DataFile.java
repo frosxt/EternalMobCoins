@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class DataFile {
@@ -18,7 +17,7 @@ public class DataFile {
     private final File file;
     private final String fileName;
 
-    public DataFile(JavaPlugin plugin, String fileName, boolean hasDefault) {
+    public DataFile(final JavaPlugin plugin, final String fileName, final boolean hasDefault) {
         this.plugin = plugin;
         this.hasDefault = hasDefault;
         this.fileName = fileName;
@@ -34,7 +33,7 @@ public class DataFile {
                 } else {
                     this.file.createNewFile();
                 }
-            } catch (IOException | SecurityException ex) {
+            } catch (final IOException | SecurityException ex) {
                 ex.printStackTrace();
             }
         }
@@ -45,7 +44,7 @@ public class DataFile {
         this.configuration = new YamlConfiguration();
         try {
             this.configuration.loadFromString(Files.toString(this.file, StandardCharsets.UTF_8));
-        } catch (IOException | InvalidConfigurationException ex) {
+        } catch (final IOException | InvalidConfigurationException ex) {
             ex.printStackTrace();
         }
     }
@@ -57,16 +56,9 @@ public class DataFile {
     public void saveConfig() {
         try {
             this.configuration.save(this.file);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void resetConfig() {
-        try {
-            this.file.delete();
-        } catch (SecurityException ex) {
-            ex.printStackTrace();
-        }
-    }
 }

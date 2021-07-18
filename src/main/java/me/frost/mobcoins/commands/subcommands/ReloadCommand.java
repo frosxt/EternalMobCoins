@@ -1,5 +1,6 @@
-package me.frost.mobcoins.commands.SubCommands;
+package me.frost.mobcoins.commands.subcommands;
 
+import me.frost.mobcoins.MobCoins;
 import me.frost.mobcoins.commands.SubCommandManager;
 import me.frost.mobcoins.utils.GeneralUtils;
 import org.bukkit.Bukkit;
@@ -8,6 +9,11 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class ReloadCommand implements SubCommandManager {
+    private final MobCoins plugin;
+
+    public ReloadCommand(final MobCoins plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public String getName() {
@@ -28,7 +34,7 @@ public class ReloadCommand implements SubCommandManager {
                 GeneralUtils.reloadConfig();
                 player.sendMessage(GeneralUtils.colorize("&a&l(!) &aSuccessfully reloaded the config!"));
             } else {
-                player.sendMessage(GeneralUtils.colorize("&c&l(!) &cYou do not have permission to execute that command!"));
+                player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.no-permission")));
             }
         } else if (sender instanceof ConsoleCommandSender) {
             GeneralUtils.reloadData();
