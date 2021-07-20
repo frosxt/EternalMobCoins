@@ -37,9 +37,9 @@ public class RemoveCommand implements SubCommandManager {
                         if (isInt(args[2])) {
                             player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.removed-mobcoins").replaceAll("%player%", target.getName()).replaceAll("%amount%", args[2])));
                             MobCoinsAPI.removeMobCoins(target, Integer.parseInt(args[2]));
-                            GeneralUtils.reloadData();
+                            plugin.reloadData();
                         } else {
-                            player.sendMessage(GeneralUtils.colorize("&c&l(!) &cPlease specify an amount to remove!"));
+                            player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-amount")));
                         }
                     } else {
                         player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-player").replaceAll("%player%", args[1])));
@@ -56,7 +56,7 @@ public class RemoveCommand implements SubCommandManager {
                 if (isInt(args[2])) {
                     Bukkit.getServer().getConsoleSender().sendMessage(GeneralUtils.colorize("&a&l(!) &aSuccessfully removed " + args[2] + " MobCoin(s)" + " from " + target.getName() + "!"));
                     MobCoinsAPI.removeMobCoins(target, Integer.parseInt(args[2]));
-                    GeneralUtils.reloadData();
+                    plugin.reloadData();
                 } else {
                     Bukkit.getServer().getConsoleSender().sendMessage(GeneralUtils.colorize("&c&l(!) &cPlease specify an amount to remove!"));
                 }

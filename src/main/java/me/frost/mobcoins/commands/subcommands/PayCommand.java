@@ -33,12 +33,16 @@ public class PayCommand implements SubCommandManager {
                 final Player target = Bukkit.getPlayer(args[1]);
                 if (target != null) {
                     if (isInt(args[2])) {
+                        if (!(MobCoinsAPI.getMobCoins(player) >= Integer.parseInt(args[2]))) {
+                            player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.not-enough-mobcoins")));
+                            return;
+                        }
                         player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.paid-player").replaceAll("%player%", target.getName()).replaceAll("%amount%", args[2])));
                         MobCoinsAPI.addMobCoins(target, Integer.parseInt(args[2]));
                         MobCoinsAPI.removeMobCoins(player, Integer.parseInt(args[2]));
-                        GeneralUtils.reloadData();
+                        plugin.reloadData();
                     } else {
-                        player.sendMessage(GeneralUtils.colorize("&c&l(!) &cPlease specify an amount to give!"));
+                        player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-amount")));
                     }
                 } else {
                     player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-player").replaceAll("%player%", args[1])));

@@ -35,11 +35,11 @@ public class GiveCommand implements SubCommandManager {
                     final Player target = Bukkit.getPlayer(args[1]);
                     if (target != null) {
                         if (isInt(args[2])) {
-                            player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.gave-mobcoins")));
+                            player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.gave-mobcoins").replaceAll("%player%", args[1]).replaceAll("%amount%", args[2])));
                             MobCoinsAPI.addMobCoins(target, Integer.parseInt(args[2]));
-                            GeneralUtils.reloadData();
+                            plugin.reloadData();
                         } else {
-                            player.sendMessage(GeneralUtils.colorize("&c&l(!) &cPlease specify an amount to give!"));
+                            player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-amount")));
                         }
                     } else {
                         player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-player").replaceAll("%player%", args[1])));
@@ -56,7 +56,7 @@ public class GiveCommand implements SubCommandManager {
                 if (isInt(args[2])) {
                     Bukkit.getServer().getConsoleSender().sendMessage(GeneralUtils.colorize("&a&l(!) &aSuccessfully gave " + target.getName() + " " + args[2] + " MobCoin(s)!"));
                     MobCoinsAPI.addMobCoins(target, Integer.parseInt(args[2]));
-                    GeneralUtils.reloadData();
+                    plugin.reloadData();
                 } else {
                     Bukkit.getServer().getConsoleSender().sendMessage(GeneralUtils.colorize("&c&l(!) &cPlease specify an amount to give!"));
                 }

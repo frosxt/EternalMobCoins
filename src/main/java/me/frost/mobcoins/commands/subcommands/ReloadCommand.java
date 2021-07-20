@@ -30,15 +30,15 @@ public class ReloadCommand implements SubCommandManager {
         if (sender instanceof Player) {
             final Player player = (Player) sender;
             if (player.hasPermission("emobcoins.admin")) {
-                GeneralUtils.reloadData();
-                GeneralUtils.reloadConfig();
+                plugin.reloadData();
+                plugin.reloadConfig();
                 player.sendMessage(GeneralUtils.colorize("&a&l(!) &aSuccessfully reloaded the config!"));
             } else {
                 player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.no-permission")));
             }
         } else if (sender instanceof ConsoleCommandSender) {
-            GeneralUtils.reloadData();
-            GeneralUtils.reloadConfig();
+            plugin.reloadData();
+            plugin.reloadConfig();
             Bukkit.getConsoleSender().sendMessage("Successfully reloaded the config!");
         }
     }

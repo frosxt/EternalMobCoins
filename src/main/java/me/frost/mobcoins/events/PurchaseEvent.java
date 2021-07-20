@@ -1,6 +1,7 @@
 package me.frost.mobcoins.events;
 
 import me.frost.mobcoins.MobCoins;
+import me.frost.mobcoins.MobCoinsAPI;
 import me.frost.mobcoins.inventories.CoinsShop;
 import me.frost.mobcoins.utils.GeneralUtils;
 import org.bukkit.Bukkit;
@@ -34,18 +35,15 @@ public class PurchaseEvent implements Listener {
         event.setCancelled(true);
         event.setResult(Event.Result.DENY);
         if (event.getCurrentItem() != null) {
-            final FileConfiguration config = plugin.configFile.getConfig();
+            final FileConfiguration config = plugin.getConfig();
             for (final String section : config.getConfigurationSection("inventory.menu").getKeys(false)) {
                 if (event.getSlot() == config.getInt("inventory.menu." + section + ".slot")) {
-                    final String uuid = player.getUniqueId().toString();
-                    final FileConfiguration data = plugin.dataFile.getConfig();
-                    if (data.getInt("balance." + uuid) >= config.getInt("inventory.menu." + section + ".price")) {
+                    if (MobCoinsAPI.getMobCoins(player) >= config.getInt("inventory.menu." + section + ".price")) {
                         final List<String> commands = config.getStringList("inventory.menu." + section + ".commands");
                         for (final String command : commands) {
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replaceAll("%player%", player.getName()));
                         }
-                        data.set("balance." + uuid, data.getInt("balance." + uuid) - config.getInt("inventory.menu." + section + ".price"));
-                        plugin.dataFile.saveConfig();
+                        MobCoinsAPI.removeMobCoins(player, config.getInt("inventory.menu." + section + ".price"));
                         player.updateInventory();
                     } else {
                         player.closeInventory();

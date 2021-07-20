@@ -5,41 +5,29 @@ messages:
   paid-player: "&a&l(!) &aSuccessfully paid %player% %amount% MobCoins(s)!"
   removed-mobcoins: "&a&l(!) &aSuccessfully removed %amount% MobCoins(s) from %player%!"
   invalid-player: "&c&l(!) &cInvalid player!"
-  not-enough-mobcoins: "&c&l(!) &cYou do not have enough MobCoins to purchase that!"
+  not-enough-mobcoins: "&c&l(!) &cYou do not have enough MobCoins!"
   received-mobcoins: "&a&l+1 MobCoin &7(Grinding Mobs)"
+  invalid-amount: "&c&l(!) &cYou specified an invalid amount!"
   no-permission: "&c&l(!) &cYou do not have permission to execute that command!"
 settings:
-  amount-per-mob: 1 # The amount of mob coins each mob wil drop
+  amount-per-mob: 1 # The amount of mob coins each mob will drop
 mobs: # Chances of a MobCoin dropping when specified mob is killed
   ZOMBIE: 5
   SKELETON: 5
 inventory:
   inventory-size: 45 # Must be a multiple of 9
   menu:
-    Test:
-      display-name: "&e&lTest Item &7(700 Coins)"
+    default-reward:
+      display-name: "&e&lDefault Reward &7(1000 Coins)"
       lore:
-        - "&7This is a test item."
+        - "&7Purchase this to receive a diamond!"
         - ""
-        - "&eUse it however you want!"
-      material:
-        name: "DIAMOND_SWORD"
-        durability: 0 # Most items will use a value of 0
-      price: 700
-      slot: 0 # The first slot is always 0
-    Test2:
-      display-name: "&e&lTest Item 2 &7(1000 Coins)"
-      lore:
-        - "&7This is a test item."
-        - ""
-        - "&eUse it however you want!"
         - "&e&lBALANCE:"
-        - "&7%balance% MobCoins"
+        - "&6* &f%balance% MobCoins"
       material:
-        name: "DIAMOND_PICKAXE"
+        name: "DIAMOND"
         durability: 0 # Most items will use a value of 0
       price: 1000
-      slot: 1 # The first slot is always 0
+      slot: 0 # The first slot is always 0
       commands:
         - "give %player% diamond 1"
-        - "eco give %player% 100"

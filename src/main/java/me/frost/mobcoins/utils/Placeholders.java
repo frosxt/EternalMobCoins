@@ -1,17 +1,12 @@
 package me.frost.mobcoins.utils;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.frost.mobcoins.MobCoins;
+import me.frost.mobcoins.MobCoinsAPI;
 import org.bukkit.entity.Player;
 
 import java.text.NumberFormat;
 
 public class Placeholders extends PlaceholderExpansion {
-    private MobCoins plugin;
-
-    public Placeholders(MobCoins plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public boolean persist() {
@@ -25,7 +20,7 @@ public class Placeholders extends PlaceholderExpansion {
 
     @Override
     public String getAuthor() {
-        return "Frost";
+        return "frost#0723";
     }
 
     @Override
@@ -39,15 +34,11 @@ public class Placeholders extends PlaceholderExpansion {
     }
 
     @Override
-    public String onPlaceholderRequest(Player player, String identifier) {
+    public String onPlaceholderRequest(final Player player, final String identifier) {
 
         // %eternalmobcoins_balance%
-        if (player != null && identifier.toLowerCase().equalsIgnoreCase("balance")) {
-            if (plugin.dataFile.getConfig().getInt("balance." + player.getUniqueId().toString()) > 0) {
-                return NumberFormat.getInstance().format(plugin.dataFile.getConfig().getInt("balance." + player.getUniqueId().toString()));
-            } else {
-                return "0";
-            }
+        if (player != null && identifier.equalsIgnoreCase("balance")) {
+            return NumberFormat.getInstance().format(MobCoinsAPI.getMobCoins(player));
         }
 
         return null;

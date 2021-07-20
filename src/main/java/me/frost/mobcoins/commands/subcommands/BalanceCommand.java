@@ -38,8 +38,7 @@ public class BalanceCommand implements SubCommandManager {
                     player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.invalid-player").replaceAll("%player%", args[1])));
                 }
             } else {
-                player.sendMessage(GeneralUtils.colorize(""));
-                player.sendMessage(GeneralUtils.colorize("&a&l(!) &aYou currently have " + MobCoinsAPI.getMobCoins(player) + " MobCoin(s)!"));
+                player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.balance").replaceAll("%amount%", String.valueOf(MobCoinsAPI.getMobCoins(player)))));
             }
         } else if (sender instanceof ConsoleCommandSender) {
             if (args.length != 2) {
