@@ -23,6 +23,7 @@ public class MobCoinsAPI {
     public static void addMobCoins(final Player player, final Integer amount) {
         if (BalanceManager.getBalances().get(player.getUniqueId()) == null) {
             BalanceManager.getBalances().putIfAbsent(player.getUniqueId(), amount);
+            return;
         }
         BalanceManager.getBalances().put(player.getUniqueId(), BalanceManager.getBalances().get(player.getUniqueId()) + amount);
     }
