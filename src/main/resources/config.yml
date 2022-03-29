@@ -9,6 +9,7 @@ messages:
   received-mobcoins: "&a&l+1 MobCoin &7(Grinding Mobs)"
   invalid-amount: "&c&l(!) &cYou specified an invalid amount!"
   no-permission: "&c&l(!) &cYou do not have permission to execute that command!"
+  pay-negative: "&c&l(!) &cYou cannot pay a negative amount of MobCoins!"
 settings:
   amount-per-mob: 1 # The amount of mob coins each mob will drop
 mobs: # Chances of a MobCoin dropping when specified mob is killed
