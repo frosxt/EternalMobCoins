@@ -41,7 +41,7 @@ public class CoinsShop implements InventoryHolder {
 
     public CoinsShop(final Player player) {
         this.player = player;
-        inventory = Bukkit.createInventory(this, plugin.getConfig().getInt("inventory.inventory-size"), GeneralUtils.colorize("&8Viewing the &8&nMobCoins Shop"));
+        inventory = Bukkit.createInventory(this, plugin.getConfig().getInt("inventory.inventory-size"), GeneralUtils.colorize(plugin.getConfig().getString("inventory.title")));
         init();
     }
 
