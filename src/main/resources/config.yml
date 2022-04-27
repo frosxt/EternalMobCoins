@@ -16,6 +16,7 @@ mobs: # Chances of a MobCoin dropping when specified mob is killed
   ZOMBIE: 5
   SKELETON: 5
 inventory:
+  title: "&8Viewing the &8&nMobCoins Shop"
   inventory-size: 45 # Must be a multiple of 9
   menu:
     default-reward:
