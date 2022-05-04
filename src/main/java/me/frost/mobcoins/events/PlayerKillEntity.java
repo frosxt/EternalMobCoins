@@ -31,7 +31,10 @@ public class PlayerKillEntity implements Listener {
             if (entity.equals(mob)) {
                 final int chance = ThreadLocalRandom.current().nextInt(100);
                 if (chance <= plugin.getConfig().getInt("mobs." + mob)) {
-                    player.sendMessage(GeneralUtils.colorize(plugin.getConfig().getString("messages.received-mobcoins")));
+                    String message = GeneralUtils.colorize(plugin.getConfig().getString("messages.received-mobcoins"));
+                    if (!message.equals("")) {
+                        player.sendMessage(message);
+                    }
                     MobCoinsAPI.addMobCoins(player, plugin.getConfig().getInt("settings.amount-per-mob"));
                 }
             }
